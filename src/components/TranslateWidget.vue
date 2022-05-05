@@ -25,15 +25,20 @@
             <div class="xbox mt-3">
               <div class="area is-relative">
                 <textarea
-                v-model="source"
-                class="textarea"
-                :placeholder="$t('Type something to translate...')"
-              ></textarea>
+                  v-model="source"
+                  class="textarea"
+                  :placeholder="$t('Type something to translate...')"
+                ></textarea>
 
                 <span
-                v-if="sourceLang.code === 'lad'"
+                  v-if="sourceLang.code === 'lad' && source"
                   @click="voice(source)"
-                  class="voice material-icons has-text-grey-darker clickable"
+                  class="voice material-icons"
+                  :class="{
+                    clickable: !playing,
+                    'has-text-grey-darker': !playing,
+                    'has-text-grey-light': playing,
+                  }"
                   >record_voice_over</span
                 >
               </div>
@@ -87,9 +92,14 @@
                 ></textarea>
 
                 <span
-                v-if="targetLang.code === 'lad'"
+                  v-if="targetLang.code === 'lad' && target"
                   @click="voice(target)"
-                  class="voice material-icons has-text-grey-darker clickable"
+                  class="voice material-icons"
+                  :class="{
+                    clickable: !playing,
+                    'has-text-grey-darker': !playing,
+                    'has-text-grey-light': playing,
+                  }"
                   >record_voice_over</span
                 >
               </div>
@@ -111,13 +121,21 @@
                   v-t="'Cancel'"
                 ></button>
 
-                <span class="material-icons has-text-grey-darker clickable"
+                <span
+                  class="
+                    material-icons
+                    has-text-grey-darker
+                    clickable
+                    js-modal-trigger
+                  "
+                  data-target="modal-js-example"
                   >help</span
                 >
 
                 <button
                   class="button is-primary mt-3 push"
                   @click="submit"
+                  v-if="contribute"
                   :disabled="!contribute || !target"
                   v-t="'Submit'"
                 ></button>
@@ -126,6 +144,17 @@
           </div>
         </div>
       </div>
+    </div>
+    <div id="modal-js-example" class="modal">
+      <div class="modal-background"></div>
+
+      <div class="modal-content">
+        <div class="box">
+          <img src="@/assets/contributionhelp.png" class="help-image" />
+        </div>
+      </div>
+
+      <button class="modal-close is-large" aria-label="close"></button>
     </div>
   </div>
 </template>
@@ -150,6 +179,7 @@ export default {
       token: process.env.VUE_APP_API_TOKEN,
       contribute: false,
       translating: false,
+      playing: false,
     };
   },
   computed: {
@@ -168,6 +198,7 @@ export default {
   },
   mounted() {
     this.getList();
+    this.prepareModal();
     // toast({
     //     message: this.$t("Thank you for your contribution"),
     //     type: "is-primary",
@@ -209,27 +240,22 @@ export default {
       //   console.log(response.data)
       // })
       // or
-      this.axios
-        .get(`${this.apiBase}/translate`)
-        .then((response) => {
-          this.models = JSON.parse(JSON.stringify(response.data.models));
-          for (var i in response.data.languages) {
-            this.languages.push({ code: i, name: response.data.languages[i] });
-          }
-          // this.languages = response.data.languages;
-          this.sourceLang = this.languages.find((l) => l.code !== "lad");
-          this.targetLang = this.languages.find((l) => l.code === "lad");
-          // this.targetLang =
-        });
+      this.axios.get(`${this.apiBase}/translate`).then((response) => {
+        this.models = JSON.parse(JSON.stringify(response.data.models));
+        for (var i in response.data.languages) {
+          this.languages.push({ code: i, name: response.data.languages[i] });
+        }
+        // this.languages = response.data.languages;
+        this.sourceLang = this.languages.find((l) => l.code !== "lad");
+        this.targetLang = this.languages.find((l) => l.code === "lad");
+        // this.targetLang =
+      });
     },
     async translate() {
       // const post = null;
       this.translating = true;
       const data = (
-        await this.axios.post(
-          `${this.apiBase}/translate`,
-          this.postData
-        )
+        await this.axios.post(`${this.apiBase}/translate`, this.postData)
       ).data;
       this.target = "";
       if (data && data.translation) {
@@ -258,10 +284,7 @@ export default {
         token: this.token,
       };
       // const data = (
-        await this.axios.post(
-          `${this.apiBase}/translate/contribute`,
-          postData
-        )
+      await this.axios.post(`${this.apiBase}/translate/contribute`, postData);
       // ).data;
       // console.log(data.message);
 
@@ -271,41 +294,96 @@ export default {
         duration: 3000,
         position: "top-center",
         closeOnClick: true,
-        opacity: 0.7
+        opacity: 0.7,
       });
       this.contribute = false;
     },
     async voice(text) {
+      if (this.playing || !text) {
+        return;
+      }
+      this.playing = true;
       const postData = {
         voice: "karen",
         text: text,
         token: this.token,
       };
-      const data = (
-        await this.axios.request({
-          method: "get",
-          url: `${this.apiBase}/tts`,
-          data: postData,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-      ).data;
-      console.log(data);
+      const { data } = await this.axios.post(`${this.apiBase}/tts`, postData, {
+        responseType: "arraybuffer",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const blob = new Blob([data], {
+        type: "audio/wav",
+      });
+      var blobUrl = URL.createObjectURL(blob);
+      var audio = new Audio(blobUrl);
+      audio.play();
+      this.playing = false;
+
+      // var audio = new Audio(blob);
+      // audio.play();
+      // console.log(data);
       // curl -L -X GET 'http://api.collectivat.cat/tts' -H 'Content-Type: application/json' --data-raw '{"voice": "karen", "text":"hello 123 este maraviyoza diya", "token":"XoSn5gFLGXwJtTGb1sQ9VoQi4X_EHIhR5b_YghczGV0"}'
+    },
+
+    prepareModal() {
+      document.addEventListener("DOMContentLoaded", () => {
+        // Functions to open and close a modal
+        function openModal($el) {
+          $el.classList.add("is-active");
+        }
+
+        function closeModal($el) {
+          $el.classList.remove("is-active");
+        }
+
+        function closeAllModals() {
+          (document.querySelectorAll(".modal") || []).forEach(($modal) => {
+            closeModal($modal);
+          });
+        }
+
+        // Add a click event on buttons to open a specific modal
+        (document.querySelectorAll(".js-modal-trigger") || []).forEach(
+          ($trigger) => {
+            const modal = $trigger.dataset.target;
+            const $target = document.getElementById(modal);
+            console.log($target);
+
+            $trigger.addEventListener("click", () => {
+              openModal($target);
+            });
+          }
+        );
+
+        // Add a click event on various child elements to close the parent modal
+        (
+          document.querySelectorAll(
+            ".modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button"
+          ) || []
+        ).forEach(($close) => {
+          const $target = $close.closest(".modal");
+
+          $close.addEventListener("click", () => {
+            closeModal($target);
+          });
+        });
+
+        // Add a keyboard event to close all modals
+        document.addEventListener("keydown", (event) => {
+          const e = event || window.event;
+
+          if (e.keyCode === 27) {
+            // Escape key
+            closeAllModals();
+          }
+        });
+      });
     },
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.voice {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-.clickable {
-  cursor: pointer;
-}
 </style>
