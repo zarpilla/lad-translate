@@ -13,5 +13,6 @@ module.exports = defineConfig({
       fullInstall: true,
       globalInjection: true
     }
-  }
+  },
+  publicPath: process.env.VUE_APP_PUBLIC_PATH
 })
