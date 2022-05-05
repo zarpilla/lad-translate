@@ -34,8 +34,7 @@ function getLocaleFromUrl() {
       if (tmp.length == 2) getVars[tmp[0]] = tmp[1];
     });
     if (getVars.locale) {
-      const locale = getVars["locale"];
-      console.log(locale);
+      const locale = getVars.locale;
       return locale;
     }
     // do
