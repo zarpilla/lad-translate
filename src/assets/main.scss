@@ -1,0 +1,64 @@
+// Customizations Here (Optional)
+
+$primary: #5F0A30;
+$warning:  hsl(0, 0%, 86%);
+
+// Bulma Import
+@import '~bulma';
+// Icons
+@import '~material-design-icons/iconfont/material-icons.css';
+
+
+
+.spin {
+    -webkit-animation:spin 1s linear infinite;
+    -moz-animation:spin 1s linear infinite;
+    animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+
+.push {
+    margin-left: auto;
+}
+
+.pop {
+    margin-right: auto;
+}
+
+
+.translation-widget {
+    h3 {
+        margin: 40px 0 0;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        display: inline-block;
+        margin: 0 10px;
+      }
+      a {
+        color: #42b983;
+      }
+      .box {
+        border: 1px solid #999;
+      }
+      .xbox{
+          text-align: left;
+      }
+      .actions{
+          margin-top: 4rem;
+      }
+}
