@@ -8,5 +8,7 @@
   "Cancel": "Cancel",
   "Submit": "Submit",
   "Type something to translate...": "Type something to translate...",
-  "Thank you for your contribution": "Thank you for your contribution"
+  "Thank you for your contribution": "Thank you for your contribution",
+  "disclaimer": "This machine translation application has been prepared by SKAD and Col·lectivaT for educational purposes. Like every machine translation application, it has an error margin and should not be counted as professional translation. This web application is created within the framework of the “Grant Scheme for Common Cultural Heritage: Preservation and Dialogue between Turkey and the EU–II (CCH-II)” implemented by the Ministry of Culture and Tourism of the Republic of Turkey with the financial support of the European Union. The content of this application is the sole responsibility of Col·lectivaT and SKAD and does not necessarily reflect the views of the European Union."
+
 }

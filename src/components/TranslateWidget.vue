@@ -1,6 +1,6 @@
 <template>
   <div class="translation-widget">
-    <!-- <h1 v-t="'welcome'"></h1> -->
+    <!-- <h1 v-t="'welcome'"></h1> -->    
     <div class="container">
       <div class="columns">
         <div class="column">
@@ -128,7 +128,7 @@
                     clickable
                     js-modal-trigger
                   "
-                  data-target="modal-js-example"
+                  data-target="modal-contribution"
                   >help</span
                 >
 
@@ -144,13 +144,16 @@
           </div>
         </div>
       </div>
+      <div class="disclaimer" v-html="$t('disclaimer')">
+        
+      </div>
     </div>
-    <div id="modal-js-example" class="modal">
+    <div id="modal-contribution" class="modal">
       <div class="modal-background"></div>
 
       <div class="modal-content">
         <div class="box">
-          <img src="@/assets/contributionhelp.png" class="help-image" />
+          <img :src="require(`@/assets/contributionhelp-${$i18n.locale}.png`)" class="help-image" />
         </div>
       </div>
 
