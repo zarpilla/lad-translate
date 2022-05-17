@@ -112,6 +112,10 @@ $warning: hsl(0, 0%, 86%);
         }
     }
 
+    .textarea[disabled] {
+        color: #363636;
+    }
+
     
 
 }
