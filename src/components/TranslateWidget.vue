@@ -1,6 +1,6 @@
 <template>
   <div class="translation-widget">
-    <!-- <h1 v-t="'welcome'"></h1> -->    
+    <!-- <h1 v-t="'welcome'"></h1> -->
     <div class="container">
       <div class="columns">
         <div class="column">
@@ -52,7 +52,7 @@
         </div>
         <div class="column is-1">
           <div class="actions">
-            <button class="button is-primary mt-5" @click="translate">
+            <button class="button is-primary" @click="translate">
               <span class="material-icons" v-if="!translating"
                 >keyboard_arrow_right</span
               >

@@ -45,6 +45,15 @@ $warning: hsl(0, 0%, 86%);
 
 
 .translation-widget {
+    @media (max-width: 580px) {
+        margin: 0 10px;
+
+        .button{
+            padding-left: 0.6rem;
+            padding-right: 0.6rem;
+            font-size: 0.85rem;
+        }
+    }
     h3 {
         margin: 40px 0 0;
     }
@@ -72,9 +81,17 @@ $warning: hsl(0, 0%, 86%);
     }
 
     .actions {
-        margin-top: 4rem;
+        margin-top: 4rem;        
         @media (max-width: 580px) {
             margin-top: 0rem;
+        }
+
+        button {
+            margin-top: 1.5rem;
+            @media (max-width: 580px) {
+                margin-top: 0.5rem;
+                margin-bottom: 1rem;
+            }
         }
     }
 
@@ -90,6 +107,9 @@ $warning: hsl(0, 0%, 86%);
     .disclaimer{
         font-size: 0.9em;
         margin-top: 3rem;
+        @media (max-width: 580px) {
+            font-size: 0.8em;
+        }
     }
 
     
