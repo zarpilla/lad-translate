@@ -88,7 +88,7 @@
                   v-model="target"
                   class="textarea"
                   placeholder=""
-                  :disabled="!contribute"
+                  :readonly="!contribute"
                 ></textarea>
 
                 <span
