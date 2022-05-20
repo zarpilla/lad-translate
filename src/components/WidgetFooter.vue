@@ -32,11 +32,8 @@ export default {}
   margin-top: 4rem;
 }
 .logo img{
-  max-height: 110px;
+  max-height: 90px;
   margin: 0 auto;
   text-align: center;
-}
-.logo-3{
-  margin-top: 1rem;
 }
 </style>

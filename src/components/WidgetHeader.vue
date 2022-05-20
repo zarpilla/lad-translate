@@ -16,7 +16,7 @@ export default defineComponent({
 
 <style scoped>
 img{
-  height: 60px;
+  height: 80px;
   margin: 0rem auto;
 }
 .header-disclaimer{
