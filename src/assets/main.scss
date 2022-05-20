@@ -105,8 +105,9 @@ $warning: hsl(0, 0%, 86%);
         cursor: pointer;
     }
     .disclaimer{
-        font-size: 0.9em;
+        font-size: 0.8em;
         margin-top: 3rem;
+        margin-bottom: 3rem;
         @media (max-width: 580px) {
             font-size: 0.8em;
         }
@@ -114,6 +115,9 @@ $warning: hsl(0, 0%, 86%);
 
     .textarea[disabled] {
         color: #363636;
+    }
+    .textarea[readonly] {
+        background: #fafafa;
     }
 
     

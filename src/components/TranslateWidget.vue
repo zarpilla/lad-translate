@@ -2,6 +2,7 @@
   <div class="translation-widget">
     <!-- <h1 v-t="'welcome'"></h1> -->
     <div class="container">
+      <WidgetHeader></WidgetHeader>
       <div class="columns">
         <div class="column">
           <div class="tranlation-box">
@@ -144,9 +145,7 @@
           </div>
         </div>
       </div>
-      <div class="disclaimer" v-html="$t('disclaimer')">
-        
-      </div>
+      <WidgetFooter></WidgetFooter>      
     </div>
     <div id="modal-contribution" class="modal">
       <div class="modal-background"></div>
@@ -164,9 +163,12 @@
 
 <script>
 import { toast } from "bulma-toast";
+import WidgetHeader from "./WidgetHeader.vue";
+import WidgetFooter from "./WidgetFooter.vue";
 
 export default {
   name: "TranslateWidget",
+  components: { WidgetHeader, WidgetFooter },
   props: {
     msg: String,
   },
